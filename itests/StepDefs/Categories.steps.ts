@@ -1,8 +1,12 @@
-import { Given } from 'cucumber';
+import { Given, Then } from 'cucumber';
 import { Categories } from '../Methods/Categories';
 
-Given(/^This is a test step$/,
-    // @ts-ignore
+Given(/^I am on categories page$/,
     async (t: TestController, []: string[]) => {
-        await Categories.testMethod(t);
+        await Categories.goToCategories(t);
+});
+
+Then(/^I validate that the main container is present$/,
+    async (t: TestController, []: string[]) => {
+        await Categories.validatePresenceOfMainContainer(t);
 });

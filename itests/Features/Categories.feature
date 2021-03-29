@@ -1,4 +1,5 @@
-Feature: This is a test feature
+Feature: This feature is to validate the categories page
   @test
-  Scenario: This is a test scenario
-    Given This is a test step
+  Scenario: Verify that the Categories page loads and the header is visible
+    Given I am on categories page
+    Then I validate that the main container is present
