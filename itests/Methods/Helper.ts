@@ -24,4 +24,27 @@ export class Helper {
             element.exists
         ).notOk({ timeout: 60000 });
     }
+
+    static async maximizeWindow(
+        t: TestController
+    ): Promise<void> {
+        await t.maximizeWindow();
+    }
+
+    static async fetchBrowser(): Promise<string> {
+        const useragent = await USERAGENT().then((result) => result);
+        let browser;
+        if (useragent.indexOf('Firefox') > -1) {
+            browser = 'Firefox';
+        } else if (useragent.indexOf('Trident') > -1) {
+            browser = 'Internet Explorer';
+        } else if (useragent.indexOf('Chrome') > -1) {
+            browser = 'Chrome';
+        } else if (useragent.indexOf('Safari') > -1) {
+            browser = 'Safari';
+        } else {
+            browser = 'unknown';
+        }
+        return browser;
+    }
 }
