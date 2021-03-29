@@ -7,6 +7,6 @@ Given(/^I am on product page$/,
 });
 
 Then(/^I validate that the main container for product page is present$/,
-    async (t: TestController, [productName]: string[]) => {
+    async (t: TestController, []: string[]) => {
     await Product.validatePresenceOfMainContainer(t);
 });
