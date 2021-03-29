@@ -11,7 +11,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "testcafe": "1.13.0",
-    "testcafe-reporter-cucumber-json": "6.2.1"
+    "testcafe-reporter-cucumber-json": "6.2.1",
+    "typescript": ">=3.2.4 <3.3"
   },
   "scripts": {
     "start": "react-scripts start",
