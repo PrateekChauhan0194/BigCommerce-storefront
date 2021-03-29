@@ -5,7 +5,7 @@ import {Product} from "../Methods/Product";
 
 Given(/^I am on cart page$/,
     // @ts-ignore
-    async (t: TestController, [productName]: string[]) => {
+    async (t: TestController, []: string[]) => {
     await Cart.goToCart(t);
 });
 
