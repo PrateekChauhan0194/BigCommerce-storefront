@@ -3,7 +3,6 @@ import { product } from "../Pages/Product.page";
 
 export class Product {
     static async goToProduct(
-        // @ts-ignore
         t: TestController,
         productName: string
     ): Promise<void> {

@@ -4,7 +4,6 @@ import { cart } from "../Pages/Cart.page";
 export class Cart {
 
     static async goToCart(
-        // @ts-ignore
         t: TestController
     ) {
         console.log('START - Navigating to the cart page');
