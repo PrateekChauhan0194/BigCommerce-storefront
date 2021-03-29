@@ -19,7 +19,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "itests:all": "rm -rf itests/results && gherkin-testcafe --tags $npm_package_config_itest_tags -s takeOnFails=true -s fullPage=true;"
+    "report": "node itests/report-generator.js",
+    "itests:all": "rm -rf itests/results && gherkin-testcafe --tags $npm_package_config_itest_tags -s takeOnFails=true -s fullPage=true; npm run report;"
   },
   "browserslist": {
     "production": [

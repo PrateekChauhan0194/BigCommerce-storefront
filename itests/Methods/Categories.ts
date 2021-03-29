@@ -1,5 +1,6 @@
 export class Categories {
-    static async testMethod(t: any) {
+    // @ts-ignore
+    static async testMethod(t: TestController) {
         await t.expect(true).eql(true);
         console.log('This is a test method');
     }
