@@ -3,22 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "cucumber": "6.0.5",
-    "gherkin-testcafe": "5.0.0",
-    "multiple-cucumber-html-reporter": "1.18.0",
+    "cucumber": "5.1.0",
+    "gherkin-testcafe": "2.4.2",
+    "multiple-cucumber-html-reporter": "1.13.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
-    "testcafe": "1.13.0",
-    "testcafe-reporter-cucumber-json": "6.2.1",
+    "testcafe": "1.8.1",
+    "testcafe-reporter-cucumber-json": "4.0.0",
     "typescript": ">=3.2.4 <3.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "itests:all": "rm -rf itests/results && gherkin-testcafe --tags $npm_package_config_itest_tags -s takeOnFails=true -s fullPage=true;"
   },
   "browserslist": {
     "production": [
@@ -31,5 +32,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "config": {
+    "itest_tags": "@test,~@ignore"
   }
 }

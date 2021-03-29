@@ -1,7 +1,7 @@
 {
   "src": [
-    "**/*.ts",
-    "**/*.feature"
+    "itests/**/*.ts",
+    "itests/**/*.feature"
   ],
   "browsers": [
     "chrome:headless"
@@ -10,7 +10,7 @@
   "reporter": [
     {
       "name": "cucumber-json",
-      "output": "results/report/report.json"
+      "output": "itests/results/report/report.json"
     }
   ],
   "screenshotPath": "results/screenshots",
@@ -18,14 +18,10 @@
   "debugMode": false,
   "debugOnFail": true,
   "skip-uncaught-errors": false,
-  "pageLoadTimeout": 5000,
+  "pageLoadTimeout": 60000,
   "selectorTimeout": 5000,
   "skipJsErrors": true,
   "quarantineMode": true,
   "color": true,
-  "proxyBypass": [
-    "localhost:4302"
-  ],
-  "speed": 1,
-  "hostname": "localhost",
+  "speed": 1
 }
