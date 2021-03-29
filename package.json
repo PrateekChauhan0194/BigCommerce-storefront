@@ -35,6 +35,6 @@
     ]
   },
   "config": {
-    "itest_tags": "@test,~@ignore"
+    "itest_tags": "@itests,~@ignore"
   }
 }
