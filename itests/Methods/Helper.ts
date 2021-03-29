@@ -1,3 +1,7 @@
+import { ClientFunction, Selector } from 'testcafe';
+
+const USERAGENT = ClientFunction(() => navigator.userAgent);
+
 export class Helper {
     static async navigateTo(
         t: TestController,
@@ -46,5 +50,19 @@ export class Helper {
             browser = 'unknown';
         }
         return browser;
+    }
+
+    static async click(
+        t: TestController,
+        element: Selector
+    ): Promise<void> {
+        try {
+            await this.isElementPresent(t, element);
+            await t.click(element);
+            await t.wait(500);
+        } catch (error) {
+            console.log(error);
+            throw Error('Unable to click on the element: ' + element);
+        }
     }
 }

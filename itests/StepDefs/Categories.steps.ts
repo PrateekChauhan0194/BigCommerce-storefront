@@ -6,7 +6,7 @@ Given(/^I am on categories page$/,
         await Categories.goToCategories(t);
 });
 
-Then(/^I validate that the main container is present$/,
+Then(/^I validate that the main container for categories page is present$/,
     async (t: TestController, []: string[]) => {
         await Categories.validatePresenceOfMainContainer(t);
 });

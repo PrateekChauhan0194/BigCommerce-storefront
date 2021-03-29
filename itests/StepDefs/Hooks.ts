@@ -10,5 +10,5 @@ Before(async (t: TestController) => {
 
 // @ts-ignore
 After(async (t: TestController) => {
-    console.log(`  Execution Completed: ${t.testRun.test.name}`);
+    console.log(`Execution Completed: ${t.testRun.test.name}`);
 });
