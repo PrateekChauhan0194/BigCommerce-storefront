@@ -12,7 +12,9 @@
     "react-scripts": "4.0.1",
     "testcafe": "1.8.1",
     "testcafe-reporter-cucumber-json": "4.0.0",
-    "typescript": ">=3.2.4 <3.3"
+    "typescript": ">=3.2.4 <3.3",
+    "zlib": "1.0.5",
+    "object-path": "0.11.5"
   },
   "scripts": {
     "start": "react-scripts start",
