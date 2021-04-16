@@ -1,6 +1,18 @@
 import { ClientFunction, Selector } from 'testcafe';
+import { resources } from '../resources';
+import { readFileSync, copyFileSync, writeFileSync, existsSync, mkdirSync, readdir } from 'fs';
+import * as resemble from 'resemblejs';
+import { FileUtils } from './FileUtils';
 
 const USERAGENT = ClientFunction(() => navigator.userAgent);
+
+let screenshotFolder: string;
+
+export const setScreenshotFolder = (value: string) => {
+    screenshotFolder = value;
+};
+
+export const getScreenshotFolder = (): string => screenshotFolder;
 
 export class Helper {
     static async navigateTo(
@@ -204,5 +216,101 @@ export class Helper {
             .getStyleProperty(styleProperty)
             .then((result) => result);
         return value;
+    }
+
+    static isValidatingUI(): boolean {
+        const doc = readFileSync('../package.json', 'utf8');
+        const packageJson = JSON.parse(doc);
+        return packageJson.config.e2e_tags.toString().includes('@UIValidation');
+        // return false;
+    }
+
+    static async compareImages(t: TestController, imageName: string): Promise<any> {
+        const isValidate = this.isValidatingUI();
+        console.log(`isValidate: ${isValidate}`);
+        // -----Performing the visual validations only if 'validate' key is set to 'Y' in config AND the UIValidation tests are running-----//
+        if (isValidate && resources.config.visualValidation.validate === 'Y') {
+            // -----Capturing current result-----//
+            const screenshotPath = `../Current/${await this.fetchBrowser()}/${getScreenshotFolder()}/` + imageName + `.png`;
+            await t.takeScreenshot({ path: screenshotPath, fullPage: true });
+
+            await t.wait(5000);
+
+            const browserName = await this.fetchBrowser();
+            const baseImage = `${resources.config.visualValidation.baseDir}/${browserName}/${getScreenshotFolder()}/${imageName}.png`;
+            const currentImage = `${resources.config.visualValidation.currentDir}/${browserName}/${getScreenshotFolder()}/${imageName}.png`;
+            const diffImage = `${resources.config.visualValidation.diffDir}/${browserName}/${getScreenshotFolder()}/${imageName}.png`;
+
+            // ----Re-baselining the images if 'rebaseline' key is set to 'Y'----//
+            if (resources.config.visualValidation.rebaseline === 'Y') {
+                copyFileSync(currentImage, baseImage);
+                console.log(`${browserName}/${getScreenshotFolder()}/${imageName}.png re-baselined.`);
+            } else {
+                /* -----Comparing the current image (generated in current execution) with it's baselined image----- */
+                resemble(currentImage)
+                    .compareTo(baseImage)
+                    .onComplete(data => {
+                        /* ----Diff file will only be generated if there is a mismatch in image comparison---- */
+                        if (data.misMatchPercentage > 0) {
+                            console.log(`Diff Image: ${diffImage}`);
+                            console.log(data);
+                            writeFileSync(diffImage, data.getBuffer());
+                        }
+                    });
+            }
+        }
+    }
+
+    ///// placeholder method to define output settings for specific page validations
+    static async setResembleOutputSettings(pageName = 'default'): Promise<void> {
+        pageName = pageName.toLowerCase();
+        switch (pageName) {
+            case 'checkoutreview':
+                break;
+            case 'checkoutcomplete':
+                break;
+            default:
+        }
+    }
+
+    static async cleanBaselineImageDir(): Promise<void> {
+        if (resources.config.visualValidation.rebaseline === 'Y') {
+            const rootFolderPath = `${resources.config.visualValidation.baseDir}/${await this.fetchBrowser()}`;
+            if (!existsSync(rootFolderPath)) {
+                mkdirSync(rootFolderPath);
+            }
+            const folderPath = `${resources.config.visualValidation.baseDir}/${await this.fetchBrowser()}/${getScreenshotFolder()}`;
+            if (existsSync(folderPath)) {
+                await FileUtils.deleteFiles(folderPath);
+            }
+            mkdirSync(folderPath);
+        }
+    }
+
+    static async cleanDiffImageDir(): Promise<void> {
+        const rootFolderPath = `${resources.config.visualValidation.diffDir}/${await this.fetchBrowser()}`;
+        if (!existsSync(rootFolderPath)) {
+            mkdirSync(rootFolderPath);
+        }
+        const folderPath = `${resources.config.visualValidation.diffDir}/${await this.fetchBrowser()}/${getScreenshotFolder()}`;
+        if (existsSync(folderPath)) {
+            await FileUtils.deleteFiles(folderPath);
+        }
+        mkdirSync(folderPath);
+    }
+
+    // ----The test will fail if there is even a single diff file generated in a scenario----//
+
+    static async reportUIFailures(t: TestController): Promise<void> {
+        if (await Helper.isValidatingUI()) {
+            const folderPath = `${resources.config.visualValidation.diffDir}/${await this.fetchBrowser()}/${getScreenshotFolder()}`;
+            readdir(folderPath, async (_err: NodeJS.ErrnoException | null, files) => {
+                await this.assertTextValue(t, files.length.toString(), '0');
+            });
+        }
+    }
+
+    static async assertTextValue(t: TestController, actualText: string, expectedText: string): Promise<void> {
+        await t.expect(actualText).eql(expectedText);
     }
 }

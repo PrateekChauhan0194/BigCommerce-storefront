@@ -14,7 +14,8 @@
     "testcafe-reporter-cucumber-json": "4.0.0",
     "typescript": ">=3.2.4 <3.3",
     "zlib": "1.0.5",
-    "object-path": "0.11.5"
+    "object-path": "0.11.5",
+    "resemblejs": "3.2.5"
   },
   "scripts": {
     "start": "react-scripts start",
