@@ -1,0 +1,27 @@
+{
+  "src": [
+    "itests/**/*.ts",
+    "itests/**/*.feature"
+  ],
+  "browsers": [
+    "chrome:headless"
+  ],
+  "concurrency": 5,
+  "reporter": [
+    {
+      "name": "cucumber-json",
+      "output": "itests/results/report/report.json"
+    }
+  ],
+  "screenshotPath": "results/screenshots",
+  "fullPage": true,
+  "debugMode": false,
+  "debugOnFail": true,
+  "skip-uncaught-errors": false,
+  "pageLoadTimeout": 60000,
+  "selectorTimeout": 5000,
+  "skipJsErrors": true,
+  "quarantineMode": true,
+  "color": true,
+  "speed": 1
+}
