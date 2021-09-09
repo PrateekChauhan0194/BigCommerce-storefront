@@ -266,8 +266,10 @@ export class Helper {
         pageName = pageName.toLowerCase();
         switch (pageName) {
             case 'checkoutreview':
+                console.log('checkoutReview');
                 break;
             case 'checkoutcomplete':
+                console.log('checkoutComplete');
                 break;
             default:
         }
