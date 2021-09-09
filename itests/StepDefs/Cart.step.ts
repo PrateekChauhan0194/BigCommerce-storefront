@@ -4,11 +4,11 @@ import {Then} from 'cucumber'
 import {Product} from "../Methods/Product";
 
 Given(/^I am on cart page$/,
-    async (t: TestController, []: string[]) => {
+    async (t: TestController) => {
     await Cart.goToCart(t);
 });
 
 Then(/^I validate that the main container for cart page is present$/,
-    async (t: TestController, []: string[]) => {
+    async (t: TestController) => {
         await Cart.validatePresenceOfMainContainer(t);
 });
